@@ -40,4 +40,16 @@ class SearchViewModel(
             _uiState.update { it.copy(results = results, searched = true) }
         }
     }
+
+    /** 置顶切换：搜索是一次性查询（非 Flow），本地同步更新结果列表。 */
+    fun togglePin(memo: Memo) {
+        viewModelScope.launch {
+            container.memoRepository.setPinned(memo.id, !memo.pinned)
+            _uiState.update { state ->
+                state.copy(results = state.results.map {
+                    if (it.id == memo.id) it.copy(pinned = !memo.pinned) else it
+                })
+            }
+        }
+    }
 }

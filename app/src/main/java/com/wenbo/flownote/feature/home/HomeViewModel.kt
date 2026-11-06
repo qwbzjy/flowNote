@@ -204,6 +204,14 @@ class HomeViewModel(
         }
     }
 
+    // ---- 置顶 ----
+
+    fun togglePin(memo: Memo) {
+        viewModelScope.launch {
+            memoRepository.setPinned(memo.id, !memo.pinned)
+        }
+    }
+
     override fun onCleared() {
         speechEngine.destroy()
         super.onCleared()

@@ -168,6 +168,7 @@ fun HomeScreen(
                                 memo = memo,
                                 onClick = { onOpenMemo(memo.id) },
                                 onLongClick = { pendingDeleteId = memo.id },
+                                onTogglePin = { vm.togglePin(memo) },
                             )
                         }
                     }

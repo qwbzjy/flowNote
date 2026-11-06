@@ -13,6 +13,8 @@ data class BackupMemo(
     val id: Long = 0,
     val content: String,
     val images: List<String> = emptyList(),
+    /** 置顶；v1 备份无此字段，解码为 false。 */
+    val pinned: Boolean = false,
     val createdAt: Long,
     val updatedAt: Long,
 )
@@ -52,6 +54,7 @@ object BackupCodec {
                     id = entity.id,
                     content = entity.content,
                     images = entity.images,
+                    pinned = entity.pinned,
                     createdAt = entity.createdAt,
                     updatedAt = entity.updatedAt,
                 )
@@ -73,6 +76,7 @@ object BackupCodec {
                 id = memo.id,
                 content = memo.content,
                 images = memo.images,
+                pinned = memo.pinned,
                 createdAt = memo.createdAt,
                 updatedAt = memo.updatedAt,
             )

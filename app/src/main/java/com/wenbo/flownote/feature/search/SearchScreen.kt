@@ -127,6 +127,7 @@ fun SearchScreen(
                             memo = memo,
                             onClick = { onOpenMemo(memo.id) },
                             onLongClick = {},
+                            onTogglePin = { vm.togglePin(memo) },
                         )
                     }
                 }

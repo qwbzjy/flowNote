@@ -27,4 +27,7 @@ interface MemoRepository {
 
     /** 删除笔记（级联删标签关联）并删除其图片文件。 */
     suspend fun deleteMemo(id: Long)
+
+    /** 设置/取消置顶。 */
+    suspend fun setPinned(id: Long, pinned: Boolean)
 }

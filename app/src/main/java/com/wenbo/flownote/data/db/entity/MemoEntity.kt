@@ -10,6 +10,8 @@ data class MemoEntity(
     val content: String,
     /** 图片以相对文件名存储（UUID），不存绝对路径。 */
     val images: List<String>,
+    /** 置顶笔记排在列表最前。 */
+    val pinned: Boolean = false,
     val createdAt: Long,
     val updatedAt: Long,
 )

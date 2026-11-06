@@ -58,6 +58,31 @@ class BackupCodecTest {
     }
 
     @Test
+    fun `v1 旧备份无 pinned 字段解码为 false`() {
+        val json = """
+            {"version":1,"exportedAt":1,
+             "memos":[{"id":1,"content":"hi","createdAt":1,"updatedAt":1}]}
+        """.trimIndent()
+        val restored = BackupCodec.toEntities(BackupCodec.decode(json))
+        assertEquals(false, restored[0].pinned)
+    }
+
+    @Test
+    fun `pinned 状态随备份往返保留`() {
+        val backup = BackupFile(
+            version = 1,
+            exportedAt = 1,
+            memos = listOf(
+                BackupMemo(id = 1, content = "置顶的", pinned = true, createdAt = 1, updatedAt = 1),
+                BackupMemo(id = 2, content = "普通的", pinned = false, createdAt = 2, updatedAt = 2),
+            ),
+        )
+        val restored = BackupCodec.toEntities(BackupCodec.decode(BackupCodec.encode(backup)))
+        assertEquals(true, restored[0].pinned)
+        assertEquals(false, restored[1].pinned)
+    }
+
+    @Test
     fun `非法 JSON 抛 BackupFormatException`() {
         assertThrows(BackupFormatException::class.java) { BackupCodec.decode("not json at all") }
         assertThrows(BackupFormatException::class.java) { BackupCodec.decode("[1,2,3]") }

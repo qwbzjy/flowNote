@@ -83,11 +83,16 @@ class MemoRepositoryImpl(
         imageStore.deleteAll(images)
     }
 
+    override suspend fun setPinned(id: Long, pinned: Boolean) {
+        withContext(Dispatchers.IO) { memoDao.setPinned(id, pinned) }
+    }
+
     private fun MemoWithTags.toDomain() = Memo(
         id = memo.id,
         content = memo.content,
         images = memo.images,
         tags = tags.map { it.name },
+        pinned = memo.pinned,
         createdAt = memo.createdAt,
         updatedAt = memo.updatedAt,
     )

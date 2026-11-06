@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface MemoDao {
 
     @Transaction
-    @Query("SELECT * FROM memos ORDER BY createdAt DESC")
+    @Query("SELECT * FROM memos ORDER BY pinned DESC, createdAt DESC")
     fun observeAll(): Flow<List<MemoWithTags>>
 
     @Transaction
@@ -34,7 +34,7 @@ interface MemoDao {
     suspend fun deleteAll()
 
     @Transaction
-    @Query("SELECT * FROM memos WHERE content LIKE '%' || :escaped || '%' ESCAPE '\\' ORDER BY createdAt DESC")
+    @Query("SELECT * FROM memos WHERE content LIKE '%' || :escaped || '%' ESCAPE '\\' ORDER BY pinned DESC, createdAt DESC")
     suspend fun search(escaped: String): List<MemoWithTags>
 
     @Query("SELECT COUNT(*) FROM memos")
@@ -52,6 +52,9 @@ interface MemoDao {
 
     @Query("UPDATE memos SET content = :content, updatedAt = :updatedAt WHERE id = :id")
     suspend fun updateContent(id: Long, content: String, updatedAt: Long)
+
+    @Query("UPDATE memos SET pinned = :pinned WHERE id = :id")
+    suspend fun setPinned(id: Long, pinned: Boolean)
 
     @Query("DELETE FROM memos WHERE id = :id")
     suspend fun deleteById(id: Long)

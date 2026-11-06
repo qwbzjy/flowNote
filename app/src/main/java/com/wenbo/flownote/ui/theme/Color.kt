@@ -5,6 +5,8 @@ import androidx.compose.ui.graphics.Color
 // flomo 风格：米白纸感 + 软绿标签
 val FlomoBackground = Color(0xFFF7F6F2)
 val FlomoSurface = Color(0xFFFFFFFF)
+/** 置顶卡片：比普通卡片加深的米色底。 */
+val FlomoSurfacePinned = Color(0xFFF0EDE4)
 val FlomoTextPrimary = Color(0xFF32302F)
 val FlomoTextSecondary = Color(0xFFA8A5A0)
 val FlomoTagGreen = Color(0xFF3E9B4F)

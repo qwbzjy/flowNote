@@ -6,6 +6,7 @@ data class Memo(
     val content: String,
     val images: List<String>,
     val tags: List<String>,
+    val pinned: Boolean = false,
     val createdAt: Long,
     val updatedAt: Long,
 )

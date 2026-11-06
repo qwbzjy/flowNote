@@ -26,7 +26,7 @@ interface MemoTagDao {
         SELECT memos.* FROM memos
         JOIN memo_tag_cross_ref ON memos.id = memoId
         WHERE tagId = :tagId
-        ORDER BY memos.createdAt DESC
+        ORDER BY memos.pinned DESC, memos.createdAt DESC
         """
     )
     fun observeMemosForTag(tagId: Long): Flow<List<MemoWithTags>>
