@@ -47,10 +47,10 @@ class ImageStore private constructor(
     suspend fun importFrom(uri: Uri): String? = withContext(io) {
         val resolver = context?.contentResolver ?: return@withContext null
 
-        // 1. 量尺寸
+        // 1. 量尺寸（inJustDecodeBounds 时 decodeStream 恒返回 null，只能以流是否打开判断成败）
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
-            ?: return@withContext null
+        val boundsStream = resolver.openInputStream(uri) ?: return@withContext null
+        boundsStream.use { BitmapFactory.decodeStream(it, null, bounds) }
         if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return@withContext null
 
         // 2. 采样解码
